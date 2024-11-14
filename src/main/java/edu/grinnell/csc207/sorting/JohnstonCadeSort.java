@@ -8,7 +8,6 @@ import java.util.Comparator;
  * @param <T>
  *   The types of values that are sorted.
  *
- * @author Samuel A. Rebelsky
  * @author Cade Johnston
  */
 
@@ -57,6 +56,6 @@ public class JohnstonCadeSort<T> implements Sorter<T> {
   @Override
   public void sort(T[] values) {
     // if +, first > second
-    
+
   } // sort(T[])
 } // class JohnstonCadeSort
