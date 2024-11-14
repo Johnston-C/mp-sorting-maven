@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * Rather, you should subclass it and initialize stringSorter and
  * intSorter in a static @BeforeAll method.
  *
- * @author Your Name
+ * @author Cade Johnston
  * @uathor Samuel A. Rebelsky
  */
 public class TestSorter {
@@ -120,4 +120,85 @@ public class TestSorter {
     ArrayUtils.permute(original);
     assertSorts(expected, original, intSorter);
   } // permutedIntegers
+
+  /**
+   * Ensure an array of only 1 object and shallow copies of it
+   * sort correctly;
+   */
+  @Test
+  public void allSameTest() {
+    String value = "Hello";
+    String[] original = new String[100];
+    for (int i = 0; i < 100; i++) {
+      original[i] = value;
+    } // for [i]
+    String[] expected = original.clone();
+    ArrayUtils.permute(original);
+    assertSorts(expected, original, stringSorter);
+  } // allSameTest()
+  
+  /**
+   * Ensure an empty array 'sorts' correctly.
+   */
+  @Test
+  public void emptyTest() {
+    Integer[] original = new Integer[0];
+    Integer[] expected = original.clone();
+    ArrayUtils.permute(original);
+    assertSorts(expected, original, intSorter);
+  } // emptyTest()
+
+  /**
+   * Ensure a sorting algorithm can handle a null array.
+   * It is likely to throw an exception, but no exception
+   * is also valid.
+   */
+  @Test
+  public void nullTest() {
+    Integer[] original = null;
+    Integer[] expected = null;
+    ArrayUtils.permute(original);
+    try {
+      assertSorts(expected, original, intSorter);
+    } catch (NullPointerException e) {
+      // Nothing is wrong, in this test anyways.
+    } // try / catch
+  } // nullTest()
+
+  /**
+   * Ensure a sorting algorithm works with three different values,
+   * repeated several times each (DNF).
+   */
+  @Test
+  public void dnfTest() {
+    String[] values = new String[]{"Red", "White", "Blue"};
+    String[] original = new String[30];
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 10; j++) {
+        original[i * 10 + j] = values[i];
+      } // for [j]
+    } // for [i]
+    String[] expected = original.clone();
+    ArrayUtils.permute(original);
+    assertSorts(expected, original, stringSorter);
+  } // dnfTest()
+
+  /**
+   * Ensure an array with duplicate values collated sorts properly.
+   * Values are those of the Dutch National Flag problem.
+   */
+  @Test
+  public void coalatedDNFTest() {
+    String[] values = new String[]{"Red", "White", "Blue"};
+    String[] original = new String[30];
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 3; j++) {
+        original[i * 3 + j] = values[j];
+      } // for [j]
+    } // for [i]
+    String[] expected = original.clone();
+    ArrayUtils.permute(original);
+    assertSorts(expected, original, stringSorter);
+  } // coalatedDNFTest()
+
 } // class TestSorter
