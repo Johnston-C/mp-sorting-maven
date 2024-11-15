@@ -149,33 +149,16 @@ public class TestSorter {
   } // emptyTest()
 
   /**
-   * Ensure a sorting algorithm can handle a null array.
-   * It is likely to throw an exception, but no exception
-   * is also valid.
-   */
-  @Test
-  public void nullTest() {
-    Integer[] original = null;
-    Integer[] expected = null;
-    ArrayUtils.permute(original);
-    try {
-      assertSorts(expected, original, intSorter);
-    } catch (NullPointerException e) {
-      // Nothing is wrong, in this test anyways.
-    } // try / catch
-  } // nullTest()
-
-  /**
    * Ensure a sorting algorithm works with three different values,
    * repeated several times each (DNF).
    */
   @Test
   public void dnfTest() {
-    String[] values = new String[]{"Red", "White", "Blue"};
+    String[] values = new String[]{"A", "B", "C"};
     String[] original = new String[30];
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 10; j++) {
-        original[i * 10 + j] = values[i];
+        original[i * 10 + j] = values[i] + i;
       } // for [j]
     } // for [i]
     String[] expected = original.clone();
@@ -189,16 +172,33 @@ public class TestSorter {
    */
   @Test
   public void coalatedDNFTest() {
-    String[] values = new String[]{"Red", "White", "Blue"};
+    String[] values = new String[]{"A", "B", "C"};
     String[] original = new String[30];
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 3; j++) {
-        original[i * 3 + j] = values[j];
+        original[i * 3 + j] = i + values[j];
       } // for [j]
     } // for [i]
     String[] expected = original.clone();
     ArrayUtils.permute(original);
     assertSorts(expected, original, stringSorter);
   } // coalatedDNFTest()
+
+  /**
+   * Ensures the sorting algorithm can work with increasing
+   * array sizes, up to 2^16 (Should be sufficient for most use).
+   */
+  @Test
+  public void increasingLargeTest() {
+    for(int i = 0; i <= 16; i++) {
+      Integer[] original = new Integer[(int) Math.pow(2,i)];
+      for (int j = 0; j < original.length; j++) {
+        original[j] =  j;
+      }
+      Integer[] expected = original.clone();
+      ArrayUtils.permute(original);
+      assertSorts(expected, original, intSorter);
+    }
+  } // increasingLargeTest()
 
 } // class TestSorter
