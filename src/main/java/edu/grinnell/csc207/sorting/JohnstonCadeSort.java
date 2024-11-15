@@ -55,7 +55,55 @@ public class JohnstonCadeSort<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    // if +, first > second
-
+    int divisor = 1;
+    while (divisor <= values.length) {
+      for (int i = 0; i < values.length; i += divisor * 2) {
+        sift(values, i, divisor);
+      } // for [i]
+      divisor *= 2;
+    } // while
   } // sort(T[])
+
+  /**
+   * Combine two subarrays together such that the composite
+   * subarray is ordered.
+   *
+   * @param values
+   *   The array.
+   * @param lb
+   *   The lower bound of the subarray.
+   * @param range
+   *   The range of a subarray (half of the composite).
+   */
+  @SuppressWarnings({"unchecked"})
+  private void sift(T[] values, int lb, int range) {
+    if (values.length - lb > range) {
+      int low = lb;
+      int mid = lb + range;
+      int high;
+      if (values.length - lb < 2 * range) {
+        high = values.length;
+      } else {
+        high = lb + 2 * range;
+      } // if / else
+      T[] temp = (T[]) new Object[high - low];
+      int tempIndex = 0;
+      while ((low < lb + range) && (mid < high)) {
+        if (order.compare(values[low], values[mid]) < 0) {
+          temp[tempIndex++] = values[low++];
+        } else {
+          temp[tempIndex++] = values[mid++];
+        } // if / else
+      } // while
+      while (low < lb + range) {
+        temp[tempIndex++] = values[low++];
+      } // while
+      while (mid < high) {
+        temp[tempIndex++] = values[mid++];
+      } // while
+      for (int i = 0; i < temp.length; i++) {
+        values[lb + i] = temp[i];
+      } // for[i]
+    } // if
+  } // sift(T[], int, int)
 } // class JohnstonCadeSort
