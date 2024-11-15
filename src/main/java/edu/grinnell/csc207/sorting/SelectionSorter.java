@@ -56,6 +56,31 @@ public class SelectionSorter<T> implements Sorter<T> {
    */
   @Override
   public void sort(T[] values) {
-    // STUB
+    for (int i = 0; i < values.length; i++) {
+      select(values, i, values.length);
+    } // for[i]
   } // sort(T[])
+
+  /**
+   * Find the lowest value between lb and ub. Swap that value
+   * with the value at lb.
+   *
+   * @param values
+   *   The array.
+   * @param lb
+   *   The lower bound of the subarray.
+   * @param ub
+   *   The upper bound of the subarray.
+   */
+  private void select(T[] values, int lb, int ub) {
+    int lowest = lb;
+    for (int i = lb + 1; i < ub; i++) {
+      if (order.compare(values[lowest], values[i]) > 0) {
+        lowest = i;
+      } // if
+    } // for [i]
+    T temp = values[lb];
+    values[lb] = values[lowest];
+    values[lowest] = temp;
+  } // select (T[], int, int)
 } // class SelectionSorter
