@@ -3,7 +3,9 @@ package edu.grinnell.csc207.sorting;
 import org.junit.jupiter.api.BeforeAll;
 
 /**
- * Tests of our InsertionSorter.
+ * Tests of my personal sorter.
+ * 
+ * @author Cade Johnston
  */
 public class TestJohnstonCadeSorter extends TestSorter {
   /**
